@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LCCI Level 2 - Statement of Profit or Loss Practice</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 20px; 
+            background-color: #f8f9fa; 
+            color: #212529; 
+        }
+        .container { 
+            max-width: 950px; 
+            margin: 0 auto; 
+            background: #ffffff; 
+            padding: 30px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+        }
+        h1, h2, h3 { color: #0f4c81; }
+
+        .question-nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        .q-btn {
+            background-color: #2b6cb0;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .q-btn:hover { background-color: #1e4e8c; }
+        .q-btn.active { background-color: #1a365d; }
+
+        .instructions, .trial-balance-box { 
+            background-color: #e9ecef; 
+            border-left: 4px solid #0f4c81; 
+            padding: 15px; 
+            margin-bottom: 20px; 
+            font-size: 14px; 
+            line-height: 1.5; 
+        }
+        .tb-table, .financial-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin: 15px 0; 
+            font-size: 14px; 
+        }
+        .tb-table th, .tb-table td, .financial-table th, .financial-table td { 
+            border: 1px solid #dee2e6; 
+            padding: 8px 12px; 
+            text-align: left; 
+        }
+        .tb-table th, .financial-table th { 
+            background-color: #f1f3f5; 
+            font-weight: 600; 
+        }
+        .text-right { text-align: right; }
+        select, input[type="text"] { 
+            width: 100%; 
+            padding: 6px; 
+            border: 1px solid #ced4da; 
+            border-radius: 4px; 
+            box-sizing: border-box; 
+            font-size: 13px; 
+        }
+        input[type="text"] { text-align: right; }
+        .btn { 
+            background-color: #0f4c81; 
+            color: white; 
+            border: none; 
+            padding: 12px 24px; 
+            font-size: 16px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-weight: bold; 
+        }
+        .btn:hover { background-color: #0b3860; }
+        .correct { 
+            background-color: #d4edda !important; 
+            border-color: #28a745 !important; 
+        }
+        .incorrect { 
+            background-color: #f8d7da !important; 
+            border-color: #dc3545 !important; 
+        }
+        .score-box { 
+            margin-top: 20px; 
+            font-weight: bold; 
+            font-size: 18px; 
+            color: #0f4c81; 
+        }
+        footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #dee2e6;
+            text-align: center;
+            font-size: 14px;
+            color: #495057;
+            line-height: 1.8;
+        }
+        footer .copyright {
+            font-weight: bold;
+            font-size: 16px;
+            color: #212529;
+            margin-bottom: 8px;
+        }
+        footer a { color: #0066cc; text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>LCCI Level 2 Bookkeeping and Accounting</h1>
+    
+    <!-- 題目導覽按鈕 -->
+    <div class="question-nav">
+        <button class="q-btn active" onclick="loadQuestion(1)">Question 1</button>
+        <button class="q-btn" onclick="loadQuestion(2)">Question 2</button>
+        <button class="q-btn" onclick="loadQuestion(3)">Question 3</button>
+    </div>
+
+    <h2 id="q-title">Loading...</h2>
+
+    <div class="trial-balance-box" id="tb-container"></div>
+
+    <div class="instructions">
+        <strong>Instructions:</strong><br>
+        1. 請從下拉式選單選擇正確的會計項目名稱，並在相應欄位填寫金額。<br>
+        2. 輸入金額時請勿加逗號或貨幣符號 (例如：可以直接寫 101119 或 -425)。<br>
+        3. 請自行判斷項目性質，若為需扣減之金額（如：Returns inwards/outwards、Closing inventory、Cost of sales、Total expenses等），請於數值前加上負號 (<code>-</code>)。
+    </div>
+
+    <div id="statement-container"></div>
+
+    <button class="btn" onclick="checkAnswers()">Submit & Check Answers</button>
+    <div class="score-box" id="score-display"></div>
+
+    <footer>
+        <div class="copyright">© 2026 Hung Hung Chua (Reed Chua). All Rights Reserved.</div>
+        <div>本測驗教材及內容受版權法保護，未經書面授權不得複製、轉載或用於商業用途。</div>
+        <div>如有課程查詢、教學合作或意見反饋，歡迎聯絡：<a href="mailto:reedchua@gmail.com">reedchua@gmail.com</a></div>
+    </footer>
+</div>
+
+<script>
+    let currentQIndex = 1;
+
+    // 全局選單選項
+    const commonOptions = [
+        "Sales revenue", "Returns inwards", "Net sales", "Opening inventory", "Purchases", 
+        "Returns outwards", "Closing inventory", "Cost of sales", "Gross profit",
+        "Discounts received", "Bank interest received", "Wages and salaries", "Rent and rates", 
+        "Rent", "Heat and light", "Motor expenses", "Office expenses", "Insurance", 
+        "Loan interest paid", "Travel and subsistence", "Bank charges", "Discounts allowed",
+        "Accountancy fees", "Printing, postage and stationery", "Computer software expenses",
+        "Professional subscriptions", "Irrecoverable debts", "Increase in allowance for doubtful debt",
+        "Depreciation - Motor vehicles", "Depreciation - Plant and machinery", "Depreciation - Computer equipment",
+        "Total Expenses", "Profit for the year"
+    ];
+
+    const questionsData = {
+        1: {
+            title: "Question 1: SH Catering Services - Statement of Profit or Loss",
+            subtitle: "Statement of Profit or Loss for the year ended 31 December 2021",
+            tb: [
+                ["Motor vehicles (cost)", "18,200.00", ""],
+                ["Plant and machinery (cost)", "12,420.00", ""],
+                ["Sales revenue", "", "101,119.00"],
+                ["Opening equity as at 1 January 2021", "", "20,000.00"],
+                ["Bank loan (repayable December 2025)", "", "15,000.00"],
+                ["Inventory (as at 1 January 2021)", "4,396.00", ""],
+                ["Motor vehicles accumulated depreciation", "", "3,640.00"],
+                ["Plant and machinery accumulated depreciation", "", "5,460.00"],
+                ["Purchases", "23,238.00", ""],
+                ["Trade receivables", "8,784.00", ""],
+                ["Rent", "8,880.00", ""],
+                ["Discounts received", "", "790.00"],
+                ["Trade payables", "", "4,221.00"],
+                ["Discounts allowed", "557.00", ""],
+                ["Returns inwards", "425.00", ""],
+                ["Wages and salaries", "13,184.00", ""],
+                ["Drawings", "25,000.00", ""],
+                ["Heat and light", "6,668.00", ""],
+                ["Cash", "250.00", ""],
+                ["Motor expenses", "5,582.00", ""],
+                ["Loan interest paid", "600.00", ""],
+                ["Bank", "17,343.00", ""],
+                ["Insurance", "1,213.00", ""],
+                ["Office expenses", "3,490.00", ""]
+            ],
+            notes: [
+                "1. Closing inventory for the year ending 31 December 2021 has been valued at $5262.",
+                "2. Depreciation for the year has yet to be accounted for using the following rates:<br>&nbsp;&nbsp;&nbsp;&nbsp;- Motor vehicles are depreciated at a rate of 20% using the diminishing balance method.<br>&nbsp;&nbsp;&nbsp;&nbsp;- Plant and machinery is depreciated over four years assuming a $1500 residual value.",
+                "3. The rent expense in the trial balance relates to January to August 2021. Rent for the remaining four months of the year needs to be accrued.",
+                "4. The insurance expense includes an amount of $239 paid in advance for the next financial year which is to be accounted for as a prepayment."
+            ],
+            fixedHeader: [
+                { ansName: "Sales revenue", ansVal: "101119" },
+                { ansName: "Returns inwards", ansVal: "-425" },
+                { labelName: "Net sales", ansVal: "100694" }
+            ],
+            cosRows: [
+                { ansName: "Opening inventory", ansVal: "4396" },
+                { ansName: "Purchases", ansVal: "23238" },
+                { ansName: "Closing inventory", ansVal: "-5262" }
+            ],
+            cosTotal: "-22372",
+            grossProfit: "78322",
+            otherIncomeRows: [
+                { ansName: "Discounts received", ansVal: "790" }
+            ],
+            expensesMap: {
+                "Rent": "13320",
+                "Discounts allowed": "557",
+                "Wages and salaries": "13184",
+                "Heat and light": "6668",
+                "Motor expenses": "5582",
+                "Loan interest paid": "600",
+                "Insurance": "974",
+                "Office expenses": "3490",
+                "Depreciation - Motor vehicles": "2912",
+                "Depreciation - Plant and machinery": "2730"
+            },
+            totalExpenses: "-50017",
+            netProfit: "29095"
+        },
+        2: {
+            title: "Question 2: Inspired Print & Design - Statement of Profit or Loss",
+            subtitle: "Statement of Profit or Loss for the year ended 31 March 2024",
+            tb: [
+                ["Computer equipment (cost)", "5,450.00", ""],
+                ["Inventory (as at 1 April 2023)", "1,439.00", ""],
+                ["Opening equity (as at 1 April 2023)", "", "1,000.00"],
+                ["Bank", "4,753.00", ""],
+                ["Returns inwards", "448.00", ""],
+                ["Loan interest paid", "150.00", ""],
+                ["Purchases", "16,432.00", ""],
+                ["Rent", "1,500.00", ""],
+                ["Bank interest received", "", "21.00"],
+                ["Discounts allowed", "441.00", ""],
+                ["Returns outwards", "", "223.00"],
+                ["Sales revenue", "", "54,722.00"],
+                ["Bank loan (repayable March 2028)", "", "5,000.00"],
+                ["Insurance", "420.00", ""],
+                ["Trade receivables", "5,482.00", ""],
+                ["Computer equipment accumulated depreciation", "", "2,970.00"],
+                ["Trade payables", "", "997.00"],
+                ["Accountancy fees", "4,420.00", ""],
+                ["Drawings", "18,000.00", ""],
+                ["Heat and light", "2,230.00", ""],
+                ["Printing, postage and stationery", "1,469.00", ""],
+                ["Computer software expenses", "885.00", ""],
+                ["Cash", "100.00", ""],
+                ["Travel and subsistence expenses", "1,314.00", ""]
+            ],
+            notes: [
+                "1. Closing inventory for the year ending 31 March 2024 has been valued at $995.",
+                "2. Depreciation for the year has yet to be accounted for using the following rates:<br>&nbsp;&nbsp;&nbsp;&nbsp;- Computer equipment is depreciated over five years assuming a residual value of $500.",
+                "3. An irrecoverable debt totalling $660 is to be written off.",
+                "4. The business made a bank payment for purchases amounting to $750 however an error was made when recording this transaction which now needs to be corrected. This has been entered as Debit: Drawings, Credit: Bank.",
+                "5. The heat and light expense in the trial balance relates to the first 10 months of the financial year. An accrual for the remaining 2 months needs to be made."
+            ],
+            fixedHeader: [
+                { ansName: "Sales revenue", ansVal: "54722" },
+                { ansName: "Returns inwards", ansVal: "-448" },
+                { labelName: "Net sales", ansVal: "54274" }
+            ],
+            cosRows: [
+                { ansName: "Opening inventory", ansVal: "1439" },
+                { ansName: "Purchases", ansVal: "17182" },
+                { ansName: "Returns outwards", ansVal: "-223" },
+                { ansName: "Closing inventory", ansVal: "-995" }
+            ],
+            cosTotal: "-17403",
+            grossProfit: "36871",
+            otherIncomeRows: [
+                { ansName: "Bank interest received", ansVal: "21" }
+            ],
+            expensesMap: {
+                "Loan interest paid": "150",
+                "Rent": "1500",
+                "Discounts allowed": "441",
+                "Insurance": "420",
+                "Heat and light": "2676",
+                "Printing, postage and stationery": "1469",
+                "Computer software expenses": "885",
+                "Travel and subsistence": "1314",
+                "Accountancy fees": "4420",
+                "Depreciation - Computer equipment": "990",
+                "Irrecoverable debts": "660"
+            },
+            totalExpenses: "-14925",
+            netProfit: "21967"
+        },
+        3: {
+            title: "Question 3: Sundown Landscapes - Statement of Profit or Loss",
+            subtitle: "Statement of Profit or Loss for the year ended 31 May 2023",
+            tb: [
+                ["Sales revenue", "", "120,038.00"],
+                ["Opening equity (as at 1 June 2022)", "", "10,000.00"],
+                ["Plant and machinery (cost)", "12,630.00", ""],
+                ["Computer equipment (cost)", "2,400.00", ""],
+                ["Purchases", "54,693.00", ""],
+                ["Wages and salaries", "13,196.00", ""],
+                ["Inventory (as at 1 June 2022)", "5,569.00", ""],
+                ["Returns inwards", "663.00", ""],
+                ["Cash", "200.00", ""],
+                ["Trade payables", "", "3,326.00"],
+                ["Motor expenses", "4,338.00", ""],
+                ["Bank charges", "102.00", ""],
+                ["Discounts received", "", "136.00"],
+                ["Returns outwards", "", "209.00"],
+                ["Discounts allowed", "1,020.00", ""],
+                ["Rent and rates", "1,210.00", ""],
+                ["Trade receivables", "8,840.00", ""],
+                ["Allowance for doubtful debts", "", "315.00"],
+                ["Plant and machinery accumulated depreciation", "", "8,290.00"],
+                ["Computer equipment accumulated depreciation", "", "960.00"],
+                ["Bank", "2,420.00", ""],
+                ["Heat and light", "1,354.00", ""],
+                ["Office expenses", "886.00", ""],
+                ["Drawings", "32,080.00", ""],
+                ["Professional subscriptions", "660.00", ""],
+                ["Travel and subsistence expenses", "1,013.00", ""]
+            ],
+            notes: [
+                "1. Closing inventory for the year ending 31 May 2023 has been valued at $6297.",
+                "2. Depreciation for the year has yet to be accounted for using the following rates:<br>&nbsp;&nbsp;&nbsp;&nbsp;- Plant and machinery is depreciated at a rate of 30% using the diminishing balance method.<br>&nbsp;&nbsp;&nbsp;&nbsp;- Computer equipment is depreciated over five years assuming a nil residual value.",
+                "3. The allowance for doubtful debts is to be adjusted to 5% of the trade receivables balance.",
+                "4. Professional subscriptions amounting to $105 are to be prepaid as they have been paid in advance for the next financial year."
+            ],
+            fixedHeader: [
+                { ansName: "Sales revenue", ansVal: "120038" },
+                { ansName: "Returns inwards", ansVal: "-663" },
+                { labelName: "Net sales", ansVal: "119375" }
+            ],
+            cosRows: [
+                { ansName: "Opening inventory", ansVal: "5569" },
+                { ansName: "Purchases", ansVal: "54693" },
+                { ansName: "Returns outwards", ansVal: "-209" },
+                { ansName: "Closing inventory", ansVal: "-6297" }
+            ],
+            cosTotal: "-53756",
+            grossProfit: "65619",
+            otherIncomeRows: [
+                { ansName: "Discounts received", ansVal: "136" }
+            ],
+            expensesMap: {
+                "Wages and salaries": "13196",
+                "Motor expenses": "4338",
+                "Bank charges": "102",
+                "Discounts allowed": "1020",
+                "Rent and rates": "1210",
+                "Increase in allowance for doubtful debt": "127",
+                "Heat and light": "1354",
+                "Office expenses": "886",
+                "Professional subscriptions": "555",
+                "Travel and subsistence": "1013",
+                "Depreciation - Plant and machinery": "1302",
+                "Depreciation - Computer equipment": "480"
+            },
+            totalExpenses: "-25583",
+            netProfit: "40172"
+        }
+    };
+
+    function generateSelectOptions() {
+        let html = `<option value="">-- Select Item --</option>`;
+        commonOptions.forEach(opt => {
+            html += `<option value="${opt}">${opt}</option>`;
+        });
+        return html;
+    }
+
+    function loadQuestion(qNum) {
+        currentQIndex = qNum;
+        
+        document.querySelectorAll('.q-btn').forEach((btn, idx) => {
+            if (idx + 1 === qNum) btn.classList.add('active');
+            else btn.classList.remove('active');
+        });
+
+        const qData = questionsData[qNum];
+        document.getElementById('q-title').innerText = qData.title;
+
+        // 渲染 Trial Balance
+        let tbHtml = `<h3>Trial Balance</h3>
+            <table class="tb-table">
+                <thead>
+                    <tr><th>Ledger Account</th><th class="text-right">Debit ($)</th><th class="text-right">Credit ($)</th></tr>
+                </thead>
+                <tbody>`;
+        qData.tb.forEach(row => {
+            tbHtml += `<tr><td>${row[0]}</td><td class="text-right">${row[1]}</td><td class="text-right">${row[2]}</td></tr>`;
+        });
+        tbHtml += `</tbody></table><strong>Additional Information:</strong><br>`;
+        qData.notes.forEach(note => {
+            tbHtml += `${note}<br>`;
+        });
+        document.getElementById('tb-container').innerHTML = tbHtml;
+
+        // 渲染 Statement 表格
+        let stmtHtml = `<h3>${qData.subtitle}</h3>
+            <table class="financial-table">
+                <thead>
+                    <tr>
+                        <th style="width: 46%;">Description</th>
+                        <th style="width: 18%;"> $ </th>
+                        <th style="width: 18%;"> $ </th>
+                        <th style="width: 18%;"> $ </th>
+                    </tr>
+                </thead>
+                <tbody>`;
+
+        // 1. 銷貨部分 (Revenue)
+        qData.fixedHeader.forEach(row => {
+            if (row.labelName) {
+                stmtHtml += `<tr style="font-weight: bold;">
+                    <td>${row.labelName}</td>
+                    <td></td><td></td>
+                    <td><input type="text" class="ans-val" data-ans="${row.ansVal}"></td>
+                </tr>`;
+            } else {
+                stmtHtml += `<tr>
+                    <td>
+                        <select class="ans-select" data-ans="${row.ansName}">
+                            ${generateSelectOptions()}
+                        </select>
+                    </td>
+                    <td></td><td></td>
+                    <td><input type="text" class="ans-val" data-ans="${row.ansVal}"></td>
+                </tr>`;
+            }
+        });
+
+        // 2. 銷貨成本 (Cost of Sales)
+        stmtHtml += `<tr style="background-color: #f1f3f5;"><td colspan="4"><strong>Cost of Sales</strong></td></tr>`;
+        
+        qData.cosRows.forEach(row => {
+            stmtHtml += `<tr>
+                <td>
+                    <select class="ans-select" data-ans="${row.ansName}">
+                        ${generateSelectOptions()}
+                    </select>
+                </td>
+                <td></td>
+                <td><input type="text" class="ans-val" data-ans="${row.ansVal}"></td>
+                <td></td>
+            </tr>`;
+        });
+
+        stmtHtml += `<tr style="font-weight: bold;">
+            <td>Cost of sales</td>
+            <td></td><td></td>
+            <td><input type="text" class="ans-val" data-ans="${qData.cosTotal}"></td>
+        </tr>`;
+
+        stmtHtml += `<tr style="font-weight: bold;">
+            <td>Gross profit</td>
+            <td></td><td></td>
+            <td><input type="text" class="ans-val" data-ans="${qData.grossProfit}"></td>
+        </tr>`;
+
+        // 3. 其他收入 (Other Income)
+        stmtHtml += `<tr style="background-color: #f1f3f5;"><td colspan="4"><strong>Other Income</strong></td></tr>`;
+        qData.otherIncomeRows.forEach(row => {
+            stmtHtml += `<tr>
+                <td>
+                    <select class="ans-select" data-ans="${row.ansName}">
+                        ${generateSelectOptions()}
+                    </select>
+                </td>
+                <td></td><td></td>
+                <td><input type="text" class="ans-val" data-ans="${row.ansVal}"></td>
+            </tr>`;
+        });
+
+        // 4. 費用 (Expenses)
+        stmtHtml += `<tr style="background-color: #f1f3f5;"><td colspan="4"><strong>Expenses</strong></td></tr>`;
+        stmtHtml += `<tbody id="expenses-tbody"></tbody>`;
+
+        stmtHtml += `<tr>
+            <td><strong>Total Expenses</strong></td>
+            <td></td><td></td>
+            <td><input type="text" class="ans-val" data-ans="${qData.totalExpenses}"></td>
+        </tr>`;
+
+        stmtHtml += `<tr style="font-weight: bold;">
+            <td>Profit for the year</td>
+            <td></td><td></td>
+            <td><input type="text" class="ans-val" data-ans="${qData.netProfit}"></td>
+        </tr>`;
+
+        stmtHtml += `</tbody></table>`;
+        document.getElementById('statement-container').innerHTML = stmtHtml;
+
+        // 動態產生費用行的下拉選單與輸入框
+        const expTbody = document.getElementById('expenses-tbody');
+        const expCount = Object.keys(qData.expensesMap).length;
+        for (let i = 0; i < expCount; i++) {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>
+                    <select class="expense-select">
+                        ${generateSelectOptions()}
+                    </select>
+                </td>
+                <td><input type="text" class="expense-val"></td>
+                <td></td><td></td>
+            `;
+            expTbody.appendChild(tr);
+        }
+
+        document.getElementById('score-display').innerText = '';
+    }
+
+    function checkAnswers() {
+        const qData = questionsData[currentQIndex];
+        const selects = document.querySelectorAll('.ans-select');
+        const inputs = document.querySelectorAll('.ans-val');
+        
+        let correctCount = 0;
+        let totalCount = selects.length + inputs.length;
+
+        // 檢查固定欄位選單
+        selects.forEach(sel => {
+            const expected = sel.getAttribute('data-ans').trim();
+            const actual = sel.value.trim();
+            if (actual === expected) {
+                sel.classList.add('correct');
+                sel.classList.remove('incorrect');
+                correctCount++;
+            } else {
+                sel.classList.add('incorrect');
+                sel.classList.remove('correct');
+            }
+        });
+
+        // 檢查固定欄位數值
+        inputs.forEach(inp => {
+            const expected = inp.getAttribute('data-ans').trim();
+            const actual = inp.value.trim().replace(/,/g, '');
+            if (actual === expected) {
+                inp.classList.add('correct');
+                inp.classList.remove('incorrect');
+                correctCount++;
+            } else {
+                inp.classList.add('incorrect');
+                inp.classList.remove('correct');
+            }
+        });
+
+        // 檢查動態費用區塊
+        const expRows = document.querySelectorAll('#expenses-tbody tr');
+        const usedExpenses = new Set();
+        const correctExpMap = qData.expensesMap;
+
+        totalCount += (Object.keys(correctExpMap).length * 2);
+
+        expRows.forEach(row => {
+            const sel = row.querySelector('.expense-select');
+            const inp = row.querySelector('.expense-val');
+            
+            const selectedItem = sel.value.trim();
+            const enteredVal = inp.value.trim().replace(/,/g, '');
+
+            if (selectedItem in correctExpMap && !usedExpenses.has(selectedItem)) {
+                sel.classList.add('correct');
+                sel.classList.remove('incorrect');
+                correctCount++;
+                usedExpenses.add(selectedItem);
+
+                if (enteredVal === correctExpMap[selectedItem]) {
+                    inp.classList.add('correct');
+                    inp.classList.remove('incorrect');
+                    correctCount++;
+                } else {
+                    inp.classList.add('incorrect');
+                    inp.classList.remove('correct');
+                }
+            } else {
+                sel.classList.add('incorrect');
+                sel.classList.remove('correct');
+                inp.classList.add('incorrect');
+                inp.classList.remove('correct');
+            }
+        });
+
+        const scoreDisplay = document.getElementById('score-display');
+        const percentage = Math.round((correctCount / totalCount) * 100);
+        scoreDisplay.innerHTML = `Score: ${correctCount} / ${totalCount} (${percentage}%)`;
+    }
+
+    window.onload = () => loadQuestion(1);
+</script>
+
+</body>
+</html>
