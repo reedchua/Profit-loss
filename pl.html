@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LCCI Level 2 - Question 1 Practice</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 20px; 
+            background-color: #f8f9fa; 
+            color: #212529; 
+        }
+        .container { 
+            max-width: 900px; 
+            margin: 0 auto; 
+            background: #ffffff; 
+            padding: 30px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+        }
+        h1, h2, h3 { color: #0f4c81; }
+
+        /* Question Navigation Buttons Style */
+        .question-nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        .q-btn {
+            background-color: #2b6cb0;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 15px;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            display: inline-block;
+        }
+        .q-btn:hover {
+            background-color: #1e4e8c;
+        }
+        .q-btn.active {
+            background-color: #1a365d;
+        }
+
+        .instructions, .trial-balance-box { 
+            background-color: #e9ecef; 
+            border-left: 4px solid #0f4c81; 
+            padding: 15px; 
+            margin-bottom: 20px; 
+            font-size: 14px; 
+            line-height: 1.5; 
+        }
+        .tb-table, .financial-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin: 15px 0; 
+            font-size: 14px; 
+        }
+        .tb-table th, .tb-table td, .financial-table th, .financial-table td { 
+            border: 1px solid #dee2e6; 
+            padding: 8px 12px; 
+            text-align: left; 
+        }
+        .tb-table th, .financial-table th { 
+            background-color: #f1f3f5; 
+            font-weight: 600; 
+        }
+        .text-right { text-align: right; }
+        select, input[type="text"] { 
+            width: 100%; 
+            padding: 6px; 
+            border: 1px solid #ced4da; 
+            border-radius: 4px; 
+            box-sizing: border-box; 
+            font-size: 13px; 
+        }
+        input[type="text"] { text-align: right; }
+        .btn { 
+            background-color: #0f4c81; 
+            color: white; 
+            border: none; 
+            padding: 12px 24px; 
+            font-size: 16px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-weight: bold; 
+        }
+        .btn:hover { background-color: #0b3860; }
+        .correct { 
+            background-color: #d4edda !important; 
+            border-color: #28a745 !important; 
+        }
+        .incorrect { 
+            background-color: #f8d7da !important; 
+            border-color: #dc3545 !important; 
+        }
+        .score-box { 
+            margin-top: 20px; 
+            font-weight: bold; 
+            font-size: 18px; 
+            color: #0f4c81; 
+        }
+        footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #dee2e6;
+            text-align: center;
+            font-size: 14px;
+            color: #495057;
+            line-height: 1.8;
+        }
+        footer .copyright {
+            font-weight: bold;
+            font-size: 16px;
+            color: #212529;
+            margin-bottom: 8px;
+        }
+        footer a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="question-nav">
+        <a href="#" class="q-btn active">Question 1</a>
+        <a href="#" class="q-btn">Question 2</a>
+        <a href="#" class="q-btn">Question 3</a>
+        <a href="#" class="q-btn">Question 4</a>
+        <a href="#" class="q-btn">Question 5</a>
+        <a href="#" class="q-btn">Question 6</a>
+    </div>
+
+    <h1>LCCI Level 2 Bookkeeping and Accounting</h1>
+    <h2>Question 1: SH Catering Services - Statement of Profit or Loss</h2>
+
+    <div class="trial-balance-box">
+        <h3>Trial Balance as at 31 December 2021</h3>
+        <table class="tb-table">
+            <thead>
+                <tr>
+                    <th>Ledger account</th>
+                    <th class="text-right">Debit ($)</th>
+                    <th class="text-right">Credit ($)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Motor vehicles (cost)</td><td class="text-right">18,200.00</td><td class="text-right"></td></tr>
+                <tr><td>Plant and machinery (cost)</td><td class="text-right">12,420.00</td><td class="text-right"></td></tr>
+                <tr><td>Sales revenue</td><td class="text-right"></td><td class="text-right">101,119.00</td></tr>
+                <tr><td>Opening equity as at 1 January 2021</td><td class="text-right"></td><td class="text-right">20,000.00</td></tr>
+                <tr><td>Bank loan (repayable December 2025)</td><td class="text-right"></td><td class="text-right">15,000.00</td></tr>
+                <tr><td>Inventory (as at 1 January 20X1)</td><td class="text-right">4,396.00</td><td class="text-right"></td></tr>
+                <tr><td>Motor vehicles accumulated depreciation</td><td class="text-right"></td><td class="text-right">3,640.00</td></tr>
+                <tr><td>Plant and machinery accumulated depreciation</td><td class="text-right"></td><td class="text-right">5,460.00</td></tr>
+                <tr><td>Purchases</td><td class="text-right">23,238.00</td><td class="text-right"></td></tr>
+                <tr><td>Trade receivables</td><td class="text-right">8,784.00</td><td class="text-right"></td></tr>
+                <tr><td>Rent</td><td class="text-right">8,880.00</td><td class="text-right"></td></tr>
+                <tr><td>Discounts received</td><td class="text-right"></td><td class="text-right">790.00</td></tr>
+                <tr><td>Trade payables</td><td class="text-right"></td><td class="text-right">4,221.00</td></tr>
+                <tr><td>Discounts allowed</td><td class="text-right">557.00</td><td class="text-right"></td></tr>
+                <tr><td>Returns inwards</td><td class="text-right">425.00</td><td class="text-right"></td></tr>
+                <tr><td>Wages and salaries</td><td class="text-right">13,184.00</td><td class="text-right"></td></tr>
+                <tr><td>Drawings</td><td class="text-right">25,000.00</td><td class="text-right"></td></tr>
+                <tr><td>Heat and light</td><td class="text-right">6,668.00</td><td class="text-right"></td></tr>
+                <tr><td>Cash</td><td class="text-right">250.00</td><td class="text-right"></td></tr>
+                <tr><td>Motor expenses</td><td class="text-right">5,582.00</td><td class="text-right"></td></tr>
+                <tr><td>Loan interest paid</td><td class="text-right">600.00</td><td class="text-right"></td></tr>
+                <tr><td>Bank</td><td class="text-right">17,343.00</td><td class="text-right"></td></tr>
+                <tr><td>Insurance</td><td class="text-right">1,213.00</td><td class="text-right"></td></tr>
+                <tr><td>Office expenses</td><td class="text-right">3,490.00</td><td class="text-right"></td></tr>
+                <tr style="font-weight: bold;"><td>TOTALS</td><td class="text-right">150,230.00</td><td class="text-right">150,230.00</td></tr>
+            </tbody>
+        </table>
+
+        <strong>Additional information:</strong><br>
+        1. Closing inventory for the year ending 31 December 2021 has been valued at $5262.<br>
+        2. Depreciation for the year has yet to be accounted for using the following rates:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;- Motor vehicles are depreciated at a rate of 20% using the diminishing balance method.<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;- Plant and machinery is depreciated over four years assuming a $1500 residual value.<br>
+        3. The rent expense in the trial balance relates to January to August 2021. Rent for the remaining four months of the year needs to be accrued.<br>
+        4. The insurance expense includes an amount of $239 paid in advance for the next financial year which is to be accounted for as a prepayment.
+    </div>
+
+    <div class="instructions">
+        <strong>Instructions:</strong><br>
+        1. Use a minus sign (<code>-</code>) in front of values to be deducted (e.g., closing inventory, cost of sales, returns inwards, and total expenses).<br>
+        2. Do not use any symbols (e.g. $), full stops, or commas in your answer.<br>
+        3. All descriptions should be selected from the drop-down options.
+    </div>
+
+    <table class="financial-table">
+        <thead>
+            <tr>
+                <th style="width: 46%;">Description</th>
+                <th style="width: 18%;"> $ </th>
+                <th style="width: 18%;"> $ </th>
+                <th style="width: 18%;"> $ </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <select class="ans-select" data-ans="Sales revenue">
+                        <option value="">Select</option>
+                        <option>Office expenses</option>
+                        <option>Sales revenue</option>
+                        <option>Trade payables</option>
+                        <option>Returns inwards</option>
+                        <option>Drawings</option>
+                        <option>Purchases</option>
+                    </select>
+                </td>
+                <td></td><td></td>
+                <td><input type="text" class="ans-val" data-ans="101119"></td>
+            </tr>
+            <tr>
+                <td>
+                    <select class="ans-select" data-ans="Returns inwards">
+                        <option value="">Select</option>
+                        <option>Office expenses</option>
+                        <option>Sales revenue</option>
+                        <option>Trade payables</option>
+                        <option>Returns inwards</option>
+                        <option>Drawings</option>
+                        <option>Purchases</option>
+                    </select>
+                </td>
+                <td></td><td></td>
+                <td><input type="text" class="ans-val" data-ans="-425"></td>
+            </tr>
+            <tr style="font-weight: bold;">
+                <td>Sales revenue</td>
+                <td></td><td></td>
+                <td><input type="text" class="ans-val" data-ans="100694"></td>
+            </tr>
+            <tr>
+                <td colspan="4"><strong>Less: Cost of sales</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <select class="ans-select" data-ans="Opening inventory">
+                        <option value="">Select</option>
+                        <option>Closing inventory</option>
+                        <option>Opening inventory</option>
+                        <option>Drawings</option>
+                        <option>Discounts allowed</option>
+                        <option>Insurance</option>
+                        <option>Discounts received</option>
+                        <option>Purchases</option>
+                    </select>
+                </td>
+                <td></td>
+                <td><input type="text" class="ans-val" data-ans="4396"></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    <select class="ans-select" data-ans="Purchases">
+                        <option value="">Select</option>
+                        <option>Closing inventory</option>
+                        <option>Opening inventory</option>
+                        <option>Drawings</option>
+                        <option>Discounts allowed</option>
+                        <option>Insurance</option>
+                        <option>Discounts received</option>
+                        <option>Purchases</option>
+                    </select>
+                </td>
+                <td></td>
+                <td><input type="text" class="ans-val" data-ans="23238"></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    <select class="ans-select" data-ans="Closing inventory">
+                        <option value="">Select</option>
+                        <option>Closing inventory</option>
+                        <option>Opening inventory</option>
+                        <option>Drawings</option>
+                        <option>Discounts allowed</option>
+                        <option>Insurance</option>
+                        <option>Discounts received</option>
+                        <option>Purchases</option>
+                    </select>
+                </td>
+                <td></td>
+                <td><input type="text" class="ans-val" data-ans="-5262"></td>
+                <td></td>
+            </tr>
+            <tr style="font-weight: bold;">
+                <td>Cost of sales</td>
+                <td></td><td></td>
+                <td><input type="text" class="ans-val" data-ans="-22372"></td>
+            </tr>
+            <tr style="font-weight: bold;">
+                <td>Gross profit</td>
+                <td></td><td></td>
+                <td><input type="text" class="ans-val" data-ans="78322"></td>
+            </tr>
+            <tr>
+                <td colspan="4"><strong>Add other income</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <select class="ans-select" data-ans="Discounts received">
+                        <option value="">Select</option>
+                        <option>Office expenses</option>
+                        <option>Discounts allowed</option>
+                        <option>Drawings</option>
+                        <option>Discounts received</option>
+                        <option>Rent</option>
+                    </select>
+                </td>
+                <td></td><td></td>
+                <td><input type="text" class="ans-val" data-ans="790"></td>
+            </tr>
+            <tr>
+                <td colspan="4"><strong>Less expenses</strong></td>
+            </tr>
+            <tbody id="expenses-tbody">
+            </tbody>
+            <tr>
+                <td><strong>Total Expenses</strong></td>
+                <td></td><td></td>
+                <td><input type="text" class="ans-val" data-ans="-50017"></td>
+            </tr>
+            <tr style="font-weight: bold;">
+                <td>Profit/(loss) for the year</td>
+                <td></td><td></td>
+                <td><input type="text" class="ans-val" data-ans="29095"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button class="btn" onclick="checkAnswers()">Submit & Check Answers</button>
+    <div class="score-box" id="score-display"></div>
+
+    <footer>
+        <div class="copyright">© 2026 Hung Hung Chua (Reed Chua). All Rights Reserved.</div>
+        <div>本測驗教材及內容受版權法保護，未經書面授權不得複製、轉載或用於商業用途。</div>
+        <div>如有課程查詢、教學合作或意見反饋，歡迎聯絡：<a href="mailto:reedchua@yahoo.com">reedchua@yahoo.com</a></div>
+    </footer>
+</div>
+
+<script>
+    const expenseOptions = [
+        "Depreciation charge – motor vehicles",
+        "Heat and light",
+        "Trade payables",
+        "Loan interest",
+        "Rent",
+        "Plant and machinery (carrying value)",
+        "Insurance",
+        "Wages and salaries",
+        "Depreciation charge – plant and machinery",
+        "Motor expenses",
+        "Trade receivables",
+        "Motor vehicles (carrying value)",
+        "Discounts allowed",
+        "Office expenses"
+    ];
+
+    const correctExpensesMap = {
+        "Wages and salaries": "13184",
+        "Rent": "13320",
+        "Heat and light": "6668",
+        "Motor expenses": "5582",
+        "Insurance": "974",
+        "Office expenses": "3490",
+        "Discounts allowed": "557",
+        "Loan interest": "600",
+        "Depreciation charge – motor vehicles": "2912",
+        "Depreciation charge – plant and machinery": "2730"
+    };
+
+    const expensesTbody = document.getElementById('expenses-tbody');
+    for (let i = 0; i < 10; i++) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>
+                <select class="expense-select">
+                    <option value="">Select</option>
+                    ${expenseOptions.map(opt => `<option>${opt}</option>`).join('')}
+                </select>
+            </td>
+            <td><input type="text" class="expense-val"></td>
+            <td></td><td></td>
+        `;
+        expensesTbody.appendChild(tr);
+    }
+
+    function checkAnswers() {
+        const selects = document.querySelectorAll('.ans-select');
+        const inputs = document.querySelectorAll('.ans-val');
+        
+        let correctCount = 0;
+        let totalCount = selects.length + inputs.length + 20;
+
+        selects.forEach(sel => {
+            const expected = sel.getAttribute('data-ans').trim();
+            const actual = sel.value.trim();
+            if (actual === expected) {
+                sel.classList.add('correct');
+                sel.classList.remove('incorrect');
+                correctCount++;
+            } else {
+                sel.classList.add('incorrect');
+                sel.classList.remove('correct');
+            }
+        });
+
+        inputs.forEach(inp => {
+            const expected = inp.getAttribute('data-ans').trim();
+            const actual = inp.value.trim().replace(/,/g, '');
+            if (actual === expected) {
+                inp.classList.add('correct');
+                inp.classList.remove('incorrect');
+                correctCount++;
+            } else {
+                inp.classList.add('incorrect');
+                inp.classList.remove('correct');
+            }
+        });
+
+        const expRows = expensesTbody.querySelectorAll('tr');
+        const usedItems = new Set();
+
+        expRows.forEach(row => {
+            const sel = row.querySelector('.expense-select');
+            const inp = row.querySelector('.expense-val');
+            
+            const selectedItem = sel.value.trim();
+            const enteredVal = inp.value.trim().replace(/,/g, '');
+
+            if (selectedItem in correctExpensesMap && !usedItems.has(selectedItem)) {
+                sel.classList.add('correct');
+                sel.classList.remove('incorrect');
+                correctCount++;
+                usedItems.add(selectedItem);
+
+                if (enteredVal === correctExpensesMap[selectedItem]) {
+                    inp.classList.add('correct');
+                    inp.classList.remove('incorrect');
+                    correctCount++;
+                } else {
+                    inp.classList.add('incorrect');
+                    inp.classList.remove('correct');
+                }
+            } else {
+                sel.classList.add('incorrect');
+                sel.classList.remove('correct');
+                inp.classList.add('incorrect');
+                inp.classList.remove('correct');
+            }
+        });
+
+        const scoreDisplay = document.getElementById('score-display');
+        const percentage = Math.round((correctCount / totalCount) * 100);
+        scoreDisplay.innerHTML = `Score: ${correctCount} / ${totalCount} (${percentage}%)`;
+    }
+</script>
+
+</body>
+</html>
